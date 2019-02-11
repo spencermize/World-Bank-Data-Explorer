@@ -1,0 +1,32 @@
+<script id="hb-results" type="text/x-handlebars-template">
+ <div class="form-group">
+    <select class="selectpicker form-control" id="results" data-query="{{1.type}}"data-live-search="true" data-live-search-placeholder="Filter {{1.type}}..." title="{{1.type}}"> 
+    {{#each this}}
+       <option value="{{link}}" data-subtext="{{desc}}" class='api-link' >{{name}}</option>
+    {{/each}}
+    </select>
+ </div>
+</script>
+
+<script id="hb-loading" type="text/x-handlebars-template">
+          <span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span>
+</script>
+
+<script id="hb-years" type="text/x-handlebars-template">
+   <div class="form-group">
+    <select class="selectpicker form-control" title="{{desc}} Year" data-size="5" data-header="{{desc}} Year">
+  {{#for 1960 "today" 1}}
+    <option value="{{this}}">{{this}}</option>
+  {{/for}}
+      </select>
+  </div>
+</script>
+<script id="hb-countries" type="text/x-handlebars-template">
+  <div class="form-group">
+    <select class="selectpicker show-tick form-control" id="countryList" data-live-search="true" data-actions-box="true" data-selected-text-format="count>3" title="Select a country or region" data-size="5" multiple>
+      {{#each this}}
+       <option value="{{id}}" data-subtext="{{id}}">{{name}}</option>
+      {{/each}}
+    </select>
+  </div>
+</script>

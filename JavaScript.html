@@ -1,0 +1,72 @@
+<script>
+  var typeLinks = {
+     sourceMeta : "http://data.worldbank.org/indicator/{{indicator}}",
+     search : "v2/datacatalog/search/{{value}}",
+     indicator : "indicators/{{value}}",
+     sources : "source",
+     sourceIndicators : "source/{{value}}/indicators",
+     topics : "topics",
+     topicIndicators : "topic/{{value}}/indicator",
+     countries : "countries/all",
+     countryIndicators : "countries/{{country}}/indicators/{{indicator}}"
+  }
+  loadCountries();
+  loadTopics();
+  listYears();
+
+function subIndicators(results){
+  var results = JSON.parse(results);
+  var list = [];
+  $.each(results[1],function(key,value){
+    var builder = {
+      name: "",
+      link: "",
+      desc: ""
+    };
+    builder.name = value.name;
+    builder.desc = value.sourceNote;
+    builder.link = typeLinks.countryIndicators.replace("{{indicator}}",value.id);
+    builder.sourceLink = typeLinks.sourceMeta.replace("{{indicator}}",value.id);
+    builder.type = "Explore " + results[0].query.substr(results[0].query.lastIndexOf('/') + 1) + "s";
+    list.push(builder);
+  });
+  
+  renderResults(list,"#indicatorResults");
+}
+
+function renderCountries(results){
+   var results = JSON.parse(results);
+   var template = Handlebars.compile($("#hb-countries").html());
+   results[1].unshift({id:"ALL",name:"All"});
+   $("#countries").html(template(results[1]));
+   $('#countryList').selectpicker('render');
+}
+
+function renderDirectIndicator(results){
+  var results = JSON.parse(results);
+  if(results[1]){
+    $("#directIndicatorText").text(results[1][0].name).removeClass("bg-danger").addClass("bg-success");
+    $("#topicList,#indicatorResults").hide();
+  }else{
+    $("#directIndicatorText").text("No indicator found. Please enter the exact name of the indicator, like NY.GNP.PCAP.KD!").removeClass("bg-success").addClass("bg-danger");
+    $("#topicList,#indicatorResults").show();
+  }
+}
+function renderTopics(results){
+  var results = JSON.parse(results);
+  var list = [];  
+   $.each(results[1],function(key,value){
+    var builder = {
+      name: "",
+      link: "",
+      desc: ""
+    };
+    builder.name = value.value;
+    builder.desc = "";
+    builder.link = typeLinks.topicIndicators.replace("{{value}}",value.id);
+    builder.type = "Explore " + results[0].query;
+    list.push(builder);
+  });
+  renderResults(list,"#topicList")
+}
+</script>

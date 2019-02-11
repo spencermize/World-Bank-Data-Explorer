@@ -1,0 +1,77 @@
+<style>
+/* custom  */
+  .bootstrap-select .dropdown-toggle{
+    text-transform: capitalize;
+  }
+  .bootstrap-select.btn-group .dropdown-menu li a {
+    width: 100%;
+    overflow-x: hidden;
+    white-space: normal;
+    overflow: hidden;
+    transition: max-height 0.5s ease-in-out;    
+  }
+   .bootstrap-select.btn-group .dropdown-menu li a:hover {
+     max-height: 1000px;
+   }
+  .bootstrap-select.btn-group .dropdown-menu {
+    width: 100%;
+  }
+  .bootstrap-select.btn-group .dropdown-menu li a span.text{
+    overflow: hidden;
+    display: block;
+   }
+   #indicatorResults .bootstrap-select.btn-group .dropdown-menu li a span.text{
+     line-height: 1em;
+   }
+  .bigtext .bootstrap-select.btn-group .dropdown-menu li small{
+    padding-left: 5px;
+    display: block;
+    line-height: 1.1em;
+    white-space: normal;
+  }   
+  .bootstrap-select.btn-group .dropdown-menu li{
+      border-bottom: 1px solid #ccc;
+  }
+  
+  .top-buffer { margin-top:20px; }
+  .hidden-light,.bs-select-all{
+    display: none;
+  }
+  [class*='bg-']{
+    padding: 10px;
+  }
+  #currentQuery a{
+    font-size:12px;
+    word-wrap: break-word;
+    display: block;
+  }
+  legend{
+    margin-bottom: 5px;
+  }
+  .checkbox, .radio{
+    margin-top: 0;
+  }
+/* components  */
+  /* spinner  */ 
+  .glyphicon-refresh-animate {
+      -animation: spin .7s infinite linear;
+      -ms-animation: spin .7s infinite linear;
+      -webkit-animation: spinw .7s infinite linear;
+      -moz-animation: spinm .7s infinite linear;
+  }
+   
+  @keyframes spin {
+      from { transform: scale(1) rotate(0deg);}
+      to { transform: scale(1) rotate(360deg);}
+  }
+    
+  @-webkit-keyframes spinw {
+      from { -webkit-transform: rotate(0deg);}
+      to { -webkit-transform: rotate(360deg);}
+  }
+  
+  @-moz-keyframes spinm {
+      from { -moz-transform: rotate(0deg);}
+      to { -moz-transform: rotate(360deg);}
+  }
+</style>

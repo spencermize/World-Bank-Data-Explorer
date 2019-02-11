@@ -1,0 +1,55 @@
+<script>
+$("body").on("submit",".no-submit",function(e){
+  e.preventDefault();
+});
+
+
+$("#topicList").on("change","select",function(e){
+   loadingResults("#indicatorResults");
+   google.script.run.withSuccessHandler(subIndicators).withFailureHandler(noResults).runQuery($(this).val(),true);
+});
+
+$("#directIndicator").on("blur keyup","input",function(e){
+  var s = $(this).val();
+  if(s.length){
+    var query = typeLinks.indicator.replace("{{value}}",s);
+    $("#directIndicatorText").show();
+    loadingResults("#directIndicatorText");
+    google.script.run.withSuccessHandler(renderDirectIndicator).runQuery(query,true);
+  }else{
+    $("#directIndicatorText").hide();
+    $("#topicList,#indicatorResults").show();
+  }
+});
+
+$("body").on("keyup change click",function(){
+  getCurrentQuery();
+  
+  var countrySelected = $("#countryList").val().length ? true : false;
+  var indicatorSelected = $("#directIndicator input").val() || $("#indicatorResults .selectpicker").val() ? true : false;
+  $("#go").attr("disabled",!(countrySelected && indicatorSelected));
+  $("#notReady").toggle(!(countrySelected && indicatorSelected));
+});
+
+$("#chart").on("change",function(e){
+  if($("#chart").is(":checked")){
+    $("#chartType").selectpicker("show");
+  }else{
+    $("#chartType").selectpicker("hide");
+  }
+});
+$("#go").on("click",function(e){
+   var query = getCurrentQuery(),
+   startYear = $("#startYear .selectpicker").val(),
+   endYear = $("#endYear .selectpicker").val(),
+   chart = $("#chart").is(":checked"),
+   sparklines = $("#sparklines").is(":checked"),
+   metadata = $("#metadata").is(":checked"),
+   dataStats = $("#stats").is(":checked"),   
+   chartType = $("#chartType").val();
+   
+   loadingResults("#indicatorQuery");
+   google.script.run.withSuccessHandler(dataInCells).withFailureHandler(noResults).runQuery(query,false,true,{startYear:startYear,endYear:endYear},{metadata:metadata,chart:chart,sparklines:sparklines,type:chartType,dataStats:dataStats});
+});
+</script>
+

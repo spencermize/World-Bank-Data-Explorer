@@ -1,0 +1,81 @@
+<script>
+function renderResults(context,elem){
+  var template = Handlebars.compile($("#hb-results").html());
+  $(elem).html(template(context));
+  $(elem).find(".selectpicker").selectpicker('render');
+}
+function noResults(){
+  $("#indicatorQuery").html("<p class='bg-danger top-buffer'>Sorry, we ran into an error or couldn't find any results. This can sometimes occur if you're logged in to multiple Google account simultaneously - please log out of any other accounts and try again!</p>");
+  $("#currentQuery a").removeClass("bg-success").addClass("bg-danger");
+}
+function loadingResults(elem){
+  $(elem).html(Handlebars.compile($("#hb-loading").html()));
+}
+function loadCountries(){
+  loadingResults("#countries");
+  google.script.run.withSuccessHandler(renderCountries).runQuery(typeLinks.countries,true);
+}
+function loadTopics(){
+  loadingResults("#loadTopics");
+  google.script.run.withSuccessHandler(renderTopics).runQuery(typeLinks.topics,true);
+}
+
+
+//stop loading sheet indicator
+function dataInCells(results){
+  $("#indicatorQuery").html("");
+}
+
+function getCurrentQuery(){
+  var countries = $("#countries .selectpicker").val(),
+     countryString = "",
+     baseQuery = "",
+     query = "";
+   
+   if($("#directIndicator input").val().length>0){
+     baseQuery = typeLinks.countryIndicators.replace("{{indicator}}",$("#directIndicator input").val());
+   }else{
+     baseQuery = $("#indicatorResults .selectpicker").val();
+   }
+   
+   $.each(countries,function(index,country){
+     countryString += country + ";";
+   });
+   countryString = countryString.replace(/;\s*$/, "");
+   if(baseQuery){
+     query = baseQuery.replace("{{country}}",countryString);
+     $("#currentQuery").show().html("<a href='http://api.worldbank.org/"+query+"'>http://api.worldbank.org/"+query+"</a>").find("a").addClass("bg-success");
+   }
+   return query;
+}
+function listYears(){
+  $(".yearList").each(function(ind,el){
+    el = $(el);
+    desc = el.data("name");
+    sel = el.data("selected") ? el.data("selected") : new Date().getFullYear();
+    var context = {
+      desc : desc
+    }
+    var template = Handlebars.compile($("#hb-years").html());
+    el.html(template(context));
+    el.find(".selectpicker").selectpicker("val",sel);
+  });
+}
+// Log on server side
+var Logger = {};
+Logger.log = function ( msg ) {
+  google.script.run.clientLog( msg );
+}
+
+//Handlebars Helpers
+Handlebars.registerHelper('for', function(from, to, incr, block) {
+  if(to==="today"){
+    to = new Date().getFullYear() + 1;
+  }
+  var accum = '';
+  for(var i = from; i < to; i += incr)
+    accum += block.fn(i);
+  return accum;
+});
+</script>
+

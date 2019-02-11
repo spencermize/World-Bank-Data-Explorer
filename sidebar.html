@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">    
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/css/bootstrap-select.min.css">
+    <?!= include('styles'); ?>
+  </head>
+  <body>
+  <?!= include('handlebars-templates'); ?>
+  <div class="container top-buffer">
+      <fieldset>
+        <legend>Select an Indicator</legend>
+        <div class="row">
+          <div id="directIndicator" class="col-xs-12 form-group">
+            <input type="text" class="form-control"  placeholder="Input Exact World Bank Indicator..." />
+          </div>
+          <div class="col-xs-12">
+            <div id="directIndicatorText" class="form-group small hidden-light">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div id="topicList" class="col-xs-12 bigtext hideIfDirect">
+          </div>
+        </div>        
+        <div class="row">
+            <div id="indicatorResults" class="col-xs-12 bigtext hideIfDirect">
+            </div>        
+        </div>
+      </fieldset>
+
+   <fieldset>
+   <legend>Filter the Data</legend>
+      <div class="row">
+        <div id="countries" class="col-xs-12 filters"></div>
+      </div>
+      <div class="row">
+        <div id="startYear" class="col-xs-6 filters yearList" data-name="Start" data-selected="1960"></div><div id="endYear" class="col-xs-6 filters yearList" data-name="End"></div>
+      </div>    
+    
+    </fieldset>
+    <fieldset>
+     <legend>Set Display Options</legend>
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="checkbox col-xs-12">
+            <label>
+              <input id="metadata" type="checkbox" checked>Metadata
+             </label>
+          </div>
+        </div>
+        <div class="col-xs-12">
+          <div class="checkbox col-xs-12">
+            <label>
+              <input id="stats" type="checkbox" checked>Data Stats
+             </label>
+          </div>
+        </div>        
+      </div>
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="checkbox col-xs-12">
+            <label>
+              <input id="sparklines" type="checkbox" checked>Build Sparklines
+            </label>
+          </div>        
+   
+          <div class="checkbox col-xs-6">
+            <label>
+              <input id="chart" type="checkbox" checked>Build Chart
+            </label>
+          </div>
+          <div class="form-group col-xs-6">
+            <select class="selectpicker form-control" id="chartType"> 
+              <option value="AREA">Area</option>
+              <option value="SCATTER">Scatter</option>
+              <option value="LINE">Line</option>
+              <option value="BAR">Bar</option>
+            </select>
+         </div>          
+        </div>
+      </div>
+    </fieldset>    
+    <fieldset>
+      <legend>Load Data to Sheet</legend>
+      <div class="row">
+        <div class="col-xs-12 form-group">
+          <button type="button" class="btn btn-primary" disabled="disabled" id="go">Load Data</button><div id="indicatorQuery"></div>
+          <p class="bg-info top-buffer" id="notReady">Please select an indicator and country!</p>
+        </div>
+      </div>
+      <div class="row">
+        <div id="currentQuery" class="col-xs-12 hidden-light">
+        </div>
+      </div>
+    </fieldset>
+    </div>
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.6/handlebars.min.js"></script>
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/js/bootstrap-select.min.js"></script>
+    <?!= include('HelperFunctions'); ?>
+    <?!= include('Events'); ?>
+    <?!= include('JavaScript'); ?>
+    
+  </body>
+</html>
